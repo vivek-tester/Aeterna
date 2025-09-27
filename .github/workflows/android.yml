@@ -37,11 +37,20 @@ jobs:
       - name: Clean Gradle cache
         run: rm -rf ~/.gradle/caches/
 
+      - name: Clear conflicting environment variables
+        run: |
+          unset JAVA_OPTS || true
+          unset GRADLE_OPTS || true
+          echo "Cleared potentially conflicting environment variables"
+
       - name: Build with Gradle
         env:
-          JAVA_OPTS: "-Xmx4096m -Dfile.encoding=UTF-8"
+          JAVA_OPTS: ""
           GRADLE_OPTS: "-Xmx4096m -Dfile.encoding=UTF-8"
-        run: ./gradlew assembleDebug --no-daemon --stacktrace
+        run: |
+          unset JAVA_OPTS
+          export GRADLE_OPTS="-Xmx4096m -Dfile.encoding=UTF-8"
+          ./gradlew assembleDebug --no-daemon --stacktrace --info
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
