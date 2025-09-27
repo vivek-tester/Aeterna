@@ -71,9 +71,10 @@ jobs:
           cat gradle.properties
 
       - name: Build with Gradle
+        env:
+          GRADLE_OPTS: "-Xmx4096m -Dfile.encoding=UTF-8"
         run: |
           unset JAVA_OPTS || true
-          export GRADLE_OPTS="-Xmx4096m -Dfile.encoding=UTF-8"
           echo "GRADLE_OPTS set to: $GRADLE_OPTS"
           echo "Building APK..."
           ./gradlew assembleDebug --no-daemon --stacktrace --info
