@@ -34,8 +34,27 @@ jobs:
           echo "JAVA_OPTS: $JAVA_OPTS"
           echo "GRADLE_OPTS: $GRADLE_OPTS"
 
-      - name: Clean Gradle cache
-        run: rm -rf ~/.gradle/caches/
+      - name: Clean Gradle cache and daemon
+        run: |
+          rm -rf ~/.gradle/caches/
+          rm -rf ~/.gradle/daemon/
+          rm -rf .gradle/
+          echo "All Gradle caches and daemon files cleared"
+
+      - name: Stop any running Gradle daemons
+        run: |
+          ./gradlew --stop || true
+          echo "Gradle daemons stopped"
+
+      - name: Verify JVM configuration
+        run: |
+          echo "=== Current Environment ==="
+          echo "JAVA_OPTS: $JAVA_OPTS"
+          echo "GRADLE_OPTS: $GRADLE_OPTS"
+          echo "=== Gradle Properties Content ==="
+          cat gradle.properties
+          echo "=== Gradle Wrapper Properties ==="
+          cat gradle/wrapper/gradle-wrapper.properties
 
       - name: Clear conflicting environment variables
         run: |
@@ -45,11 +64,20 @@ jobs:
 
       - name: Build with Gradle
         run: |
-          export GRADLE_OPTS="-Xmx4096m -Dfile.encoding=UTF-8"
+          # Ensure clean environment
           unset JAVA_OPTS || true
+          export GRADLE_OPTS="-Xmx4096m -Dfile.encoding=UTF-8"
+          
+          # Create explicit gradle.properties in home to override any defaults
+          mkdir -p ~/.gradle
+          echo "org.gradle.jvmargs=-Xmx4096m -Dfile.encoding=UTF-8" > ~/.gradle/gradle.properties
+          echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
+          
           echo "GRADLE_OPTS set to: $GRADLE_OPTS"
+          echo "Home gradle.properties:"
+          cat ~/.gradle/gradle.properties
           echo "Building APK..."
-          ./gradlew assembleDebug --no-daemon --stacktrace
+          ./gradlew assembleDebug --no-daemon --stacktrace --info
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
