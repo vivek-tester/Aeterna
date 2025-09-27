@@ -44,13 +44,12 @@ jobs:
           echo "Cleared potentially conflicting environment variables"
 
       - name: Build with Gradle
-        env:
-          JAVA_OPTS: ""
-          GRADLE_OPTS: "-Xmx4096m -Dfile.encoding=UTF-8"
         run: |
-          unset JAVA_OPTS
           export GRADLE_OPTS="-Xmx4096m -Dfile.encoding=UTF-8"
-          ./gradlew assembleDebug --no-daemon --stacktrace --info
+          unset JAVA_OPTS || true
+          echo "GRADLE_OPTS set to: $GRADLE_OPTS"
+          echo "Building APK..."
+          ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
