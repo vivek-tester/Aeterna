@@ -23,14 +23,16 @@ class AudioNormalizationAudioProcessor : AudioProcessor {
             if (active) {
                 configure(inputAudioFormat)
             } else {
-                outputAudioFormat = AudioFormat.NOT_SET
+                outputAudioFormat = AudioProcessor.AudioFormat.NOT_SET
             }
         }
     }
 
-    override fun configure(inputAudioFormat: AudioFormat): AudioFormat {
+    override fun configure(
+            inputAudioFormat: AudioProcessor.AudioFormat
+    ): AudioProcessor.AudioFormat {
         this.inputAudioFormat = inputAudioFormat
-        outputAudioFormat = if (active) inputAudioFormat else AudioFormat.NOT_SET
+        outputAudioFormat = if (active) inputAudioFormat else AudioProcessor.AudioFormat.NOT_SET
         return outputAudioFormat
     }
 
@@ -92,8 +94,8 @@ class AudioNormalizationAudioProcessor : AudioProcessor {
 
     override fun reset() {
         flush()
-        inputAudioFormat = AudioFormat.NOT_SET
-        outputAudioFormat = AudioFormat.NOT_SET
+        inputAudioFormat = AudioProcessor.AudioFormat.NOT_SET
+        outputAudioFormat = AudioProcessor.AudioFormat.NOT_SET
         active = false
     }
 }

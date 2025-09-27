@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Aeterna</string>
+    <string name="app_description">A beautiful YouTube Music client</string>
+    
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_search">Search</string>
+    <string name="nav_library">Library</string>
+    <string name="nav_settings">Settings</string>
+    
+    <!-- Player -->
+    <string name="player_play">Play</string>
+    <string name="player_pause">Pause</string>
+    <string name="player_next">Next</string>
+    <string name="player_previous">Previous</string>
+    <string name="player_shuffle">Shuffle</string>
+    <string name="player_repeat">Repeat</string>
+    
+    <!-- Common -->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="loading">Loading…</string>
+    <string name="error">Error</string>
+    <string name="retry">Retry</string>
+    
+    <!-- Accessibility -->
+    <string name="content_description_album_art">Album artwork</string>
+    <string name="content_description_play_button">Play button</string>
+    <string name="content_description_pause_button">Pause button</string>
+    <string name="content_description_next_button">Next track button</string>
+    <string name="content_description_previous_button">Previous track button</string>
+</resources>

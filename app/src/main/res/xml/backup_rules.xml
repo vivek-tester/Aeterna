@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- Exclude sensitive data from backup -->
+    <exclude domain="sharedpref" path="auth_preferences.xml" />
+    <exclude domain="database" path="user_data.db" />
+    <exclude domain="database" path="user_data.db-wal" />
+    <exclude domain="database" path="user_data.db-shm" />
+    
+    <!-- Include app settings -->
+    <include domain="sharedpref" path="app_preferences.xml" />
+</full-backup-content>

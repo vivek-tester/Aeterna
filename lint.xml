@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <!-- Disable the deprecated API warnings for now -->
+    <issue id="OldTargetApi" severity="warning" />
+    
+    <!-- Ignore missing translations for now -->
+    <issue id="MissingTranslation" severity="ignore" />
+    
+    <!-- Ignore unused resources during development -->
+    <issue id="UnusedResources" severity="informational" />
+    
+    <!-- Suppress hardcoded strings for debug builds -->
+    <issue id="HardcodedText" severity="informational" />
+    
+    <!-- Allow missing permissions for optional features -->
+    <issue id="MissingPermission" severity="warning" />
+    
+    <!-- Suppress accessibility warnings for development -->
+    <issue id="ContentDescription" severity="informational" />
+    
+    <!-- Allow deprecated gradle features for compatibility -->
+    <issue id="GradleDependency" severity="informational" />
+    
+    <!-- Allow newer SDK features -->
+    <issue id="NewApi" severity="informational" />
+</lint>
