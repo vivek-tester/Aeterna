@@ -21,6 +21,7 @@ palette = "1.0.0"
 # Additional dependencies for enhanced features
 navigation = "2.7.7"
 appauth = "0.11.1"
+javax_inject = "1"
 accordion = "1.2.0"
 lottie = "6.3.0"
 kotlinCoroutines = "1.7.3"
@@ -82,7 +83,7 @@ datastore-proto = { group = "androidx.datastore", name = "datastore", version.re
 
 # ExoPlayer
 exoplayer-core = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "exoplayer" }
-exoplayer-ui = { group = "androidx.media3", name = "media3-exoplayer-ui", version.ref = "exoplayer" }
+exoplayer-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "exoplayer" }
 exoplayer-session = { group = "androidx.media3", name = "media3-session", version.ref = "exoplayer" }
 exoplayer-common = { group = "androidx.media3", name = "media3-common", version.ref = "exoplayer" }
 exoplayer-extractor = { group = "androidx.media3", name = "media3-extractor", version.ref = "exoplayer" }
@@ -106,6 +107,7 @@ lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", versio
 
 # Authentication
 appauth = { group = "net.openid", name = "appauth", version.ref = "appauth" }
+javax-inject = { group = "javax.inject", name = "javax.inject", version = "1" }
 
 # System UI
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashScreen" }

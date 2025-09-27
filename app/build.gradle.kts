@@ -16,8 +16,12 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables { useSupportLibrary = true }
+    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    vectorDrawables {
+        useSupportLibrary = true
+    }
+    // Manifest placeholder required by AppAuth or merged libraries
+    manifestPlaceholders["appAuthRedirectScheme"] = "com.aeterna.aeterna"
     }
 
     buildTypes {
@@ -132,6 +136,4 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:ui"))
     implementation(project(":core:youtube"))
-}
-   implementation(project(":core:youtube"))
 }

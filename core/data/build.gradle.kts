@@ -27,6 +27,7 @@ android {
 
 dependencies {
     implementation(project(":core:domain"))
+    implementation(project(":core:youtube"))
 
     implementation(libs.androidx.core.ktx)
     testImplementation(libs.junit)

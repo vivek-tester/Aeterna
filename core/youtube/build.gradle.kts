@@ -27,7 +27,10 @@ android {
 
 dependencies {
     implementation(project(":core:domain"))
-    implementation(project(":core:data"))
+    // removed dependency on core:data to avoid circular dependency; core:data should depend on core:youtube
+
+    // AppAuth for OAuth2 flows (use api so downstream modules can see the types)
+    api("net.openid:appauth:0.11.1")
 
     implementation(libs.androidx.core.ktx)
     testImplementation(libs.junit)

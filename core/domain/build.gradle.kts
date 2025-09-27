@@ -25,6 +25,12 @@ android {
 
 dependencies {
     implementation(libs.androidx.core.ktx)
+    // Media3 (ExoPlayer) used by domain models
+    implementation(libs.exoplayer.common)
+    // AppAuth used by auth use cases/repositories
+    implementation(libs.appauth)
+    // javax.inject for @Inject
+    implementation(libs.javax.inject)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

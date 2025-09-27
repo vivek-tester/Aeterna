@@ -38,12 +38,14 @@ class AuthManager @Inject constructor(
     fun exchangeToken(authorizationResponse: net.openid.appauth.AuthorizationResponse, callback: (AuthState?) -> Unit) {
         val authService = AuthorizationService(context)
         authService.performTokenRequest(
-            authorizationResponse.create
-                TokenExchangeRequest(),
+            authorizationResponse.createTokenExchangeRequest(),
             net.openid.appauth.ClientSecretPost(AuthConstants.CLIENT_SECRET)
         ) { response, ex ->
             if (response != null) {
-                val authState = AuthState(response)
+                // AuthState does not have a constructor that accepts TokenResponse in this AppAuth version.
+                // Create an empty AuthState and update it with the token response.
+                val authState = AuthState()
+                authState.update(response, ex)
                 callback(authState)
             } else {
                 callback(null)
