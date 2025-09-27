@@ -23,8 +23,25 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x gradlew
 
+      - name: Debug Gradle configuration
+        run: |
+          echo "=== Gradle Properties ==="
+          cat gradle.properties
+          echo "=== Java Version ==="
+          java -version
+          echo "=== Environment Variables ==="
+          echo "JAVA_HOME: $JAVA_HOME"
+          echo "JAVA_OPTS: $JAVA_OPTS"
+          echo "GRADLE_OPTS: $GRADLE_OPTS"
+
+      - name: Clean Gradle cache
+        run: rm -rf ~/.gradle/caches/
+
       - name: Build with Gradle
-        run: ./gradlew assembleDebug
+        env:
+          JAVA_OPTS: "-Xmx4096m -Dfile.encoding=UTF-8"
+          GRADLE_OPTS: "-Xmx4096m -Dfile.encoding=UTF-8"
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
