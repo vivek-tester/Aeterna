@@ -62,20 +62,19 @@ jobs:
           unset GRADLE_OPTS || true
           echo "Cleared potentially conflicting environment variables"
 
+      - name: Setup Gradle
+        run: |
+          echo "Ensuring correct Gradle JVM configuration..."
+          echo "org.gradle.jvmargs=-Xmx4096m -Dfile.encoding=UTF-8" >> gradle.properties
+          echo "org.gradle.daemon=false" >> gradle.properties
+          echo "Updated gradle.properties:"
+          cat gradle.properties
+
       - name: Build with Gradle
         run: |
-          # Ensure clean environment
           unset JAVA_OPTS || true
-          export GRADLE_OPTS="-Xmx4096m -Dfile.encoding=UTF-8"
-          
-          # Create explicit gradle.properties in home to override any defaults
-          mkdir -p ~/.gradle
-          echo "org.gradle.jvmargs=-Xmx4096m -Dfile.encoding=UTF-8" > ~/.gradle/gradle.properties
-          echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
-          
+          export GRADLE_OPTS=-Xmx4096m -Dfile.encoding=UTF-8
           echo "GRADLE_OPTS set to: $GRADLE_OPTS"
-          echo "Home gradle.properties:"
-          cat ~/.gradle/gradle.properties
           echo "Building APK..."
           ./gradlew assembleDebug --no-daemon --stacktrace --info
 
