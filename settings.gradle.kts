@@ -15,7 +15,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "Aeterna"
 include(":app")
-include(":core:data")
-include(":core:domain")
-include(":core:ui")
-include(":core:youtube")
