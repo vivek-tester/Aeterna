@@ -97,39 +97,39 @@ fun AeternaTheme(
         pureBlack: Boolean = false,
         content: @Composable () -> Unit
 ) {
-    val context = LocalContext.current
+        val context = LocalContext.current
 
-    val colorScheme =
-            when {
-                dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-                    if (darkTheme) {
-                        dynamicDarkColorScheme(context)
-                    } else {
-                        dynamicLightColorScheme(context)
-                    }
+        val colorScheme =
+                when {
+                        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+                                if (darkTheme) {
+                                        dynamicDarkColorScheme(context)
+                                } else {
+                                        dynamicLightColorScheme(context)
+                                }
+                        }
+                        pureBlack -> PureBlackColorScheme
+                        darkTheme -> DarkColorScheme
+                        else -> LightColorScheme
                 }
-                pureBlack -> PureBlackColorScheme
-                darkTheme -> DarkColorScheme
-                else -> LightColorScheme
-            }
 
-    val view = LocalView.current
-    if (!view.isInEditMode) {
-        SideEffect {
-            val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.surface.toArgb()
-            window.navigationBarColor = colorScheme.surface.toArgb()
-            WindowCompat.getInsetsController(window, view).apply {
-                isAppearanceLightStatusBars = !darkTheme
-                isAppearanceLightNavigationBars = !darkTheme
-            }
+        val view = LocalView.current
+        if (!view.isInEditMode) {
+                SideEffect {
+                        val window = (view.context as Activity).window
+                        window.statusBarColor = colorScheme.surface.toArgb()
+                        window.navigationBarColor = colorScheme.surface.toArgb()
+                        WindowCompat.getInsetsController(window, view).apply {
+                                isAppearanceLightStatusBars = !darkTheme
+                                isAppearanceLightNavigationBars = !darkTheme
+                        }
+                }
         }
-    }
 
-    MaterialTheme(
-            colorScheme = colorScheme,
-            typography = Typography,
-            shapes = Shapes,
-            content = content
-    )
+        MaterialTheme(
+                colorScheme = colorScheme,
+                typography = Typography,
+                shapes = Shapes,
+                content = content
+        )
 }

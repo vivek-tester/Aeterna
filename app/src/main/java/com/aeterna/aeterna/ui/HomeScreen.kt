@@ -1,8 +1,19 @@
 package com.aeterna.aeterna.ui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -11,24 +22,53 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.semantics.contentDescription
 import androidx.compose.foundation.semantics.semantics
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Shuffle
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.aeterna.aeterna.ui.theme.MusicShapes
+import com.aeterna.aeterna.ui.theme.MusicTypography
 import com.aeterna.core.domain.Song
+import kotlinx.coroutines.delay
 
 @Composable
 fun HomeScreen(
@@ -38,29 +78,111 @@ fun HomeScreen(
         highContrastMode: Boolean = false,
         reduceMotion: Boolean = false
 ) {
+    var isVisible by remember { mutableStateOf(false) }
+    
+    LaunchedEffect(Unit) {
+        isVisible = true
+    }
+    
     LazyColumn(
             modifier = modifier.fillMaxSize(),
-            contentPadding = PaddingValues(16.dp),
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        item { WelcomeSection(highContrastMode = highContrastMode) }
-
+        item { 
+            AnimatedVisibility(
+                visible = isVisible,
+                enter = if (reduceMotion) fadeIn() else slideInVertically() + fadeIn()
+            ) {
+                WelcomeSection(highContrastMode = highContrastMode) 
+            }
+        }
+        
         item {
-            QuickPicksSection(
-                    songs = getSampleSongs(),
-                    onSongClick = { onNavigateToPlayer() },
-                    highContrastMode = highContrastMode,
-                    reduceMotion = reduceMotion
-            )
+            AnimatedVisibility(
+                visible = isVisible,
+                enter = if (reduceMotion) fadeIn() else slideInVertically(initialOffsetY = { it / 2 }) + fadeIn()
+            ) {
+                QuickActionsSection(
+                    onShuffleAll = { onNavigateToPlayer() },
+                    onPlayFavorites = { onNavigateToPlayer() },
+                    highContrastMode = highContrastMode
+                )
+            }
         }
 
         item {
-            RecentlyPlayedSection(
-                    songs = getSampleSongs(),
+            AnimatedVisibility(
+                visible = isVisible,
+                enter = if (reduceMotion) fadeIn() else slideInVertically(initialOffsetY = { it / 3 }) + fadeIn()
+            ) {
+                QuickPicksSection(
+                        songs = getSampleSongs(),
+                        onSongClick = { onNavigateToPlayer() },
+                        highContrastMode = highContrastMode,
+                        reduceMotion = reduceMotion
+                )
+            }
+        }
+        
+        item {
+            AnimatedVisibility(
+                visible = isVisible,
+                enter = if (reduceMotion) fadeIn() else slideInVertically(initialOffsetY = { it / 4 }) + fadeIn()
+            ) {
+                FeaturedPlaylistsSection(
+                    playlists = getSamplePlaylists(),
+                    onPlaylistClick = { onNavigateToPlaylist(it) },
+                    highContrastMode = highContrastMode,
+                    reduceMotion = reduceMotion
+                )
+            }
+        }
+
+        item {
+            AnimatedVisibility(
+                visible = isVisible,
+                enter = if (reduceMotion) fadeIn() else slideInVertically(initialOffsetY = { it / 5 }) + fadeIn()
+            ) {
+                RecentlyPlayedSection(
+                        songs = getSampleSongs(),
+                        onSongClick = { onNavigateToPlayer() },
+                        highContrastMode = highContrastMode,
+                        reduceMotion = reduceMotion
+                )
+            }
+        }
+        
+        item {
+            AnimatedVisibility(
+                visible = isVisible,
+                enter = if (reduceMotion) fadeIn() else slideInVertically(initialOffsetY = { it / 6 }) + fadeIn()
+            ) {
+                TrendingSection(
+                    songs = getSampleSongs().shuffled(),
                     onSongClick = { onNavigateToPlayer() },
                     highContrastMode = highContrastMode,
                     reduceMotion = reduceMotion
-            )
+                )
+            }
+        }
+        
+        item {
+            AnimatedVisibility(
+                visible = isVisible,
+                enter = if (reduceMotion) fadeIn() else slideInVertically(initialOffsetY = { it / 7 }) + fadeIn()
+            ) {
+                MoodCategoriesSection(
+                    categories = getMoodCategories(),
+                    onCategoryClick = { onNavigateToPlaylist(it) },
+                    highContrastMode = highContrastMode
+                )
+            }
+        }
+        
+        // Add bottom spacing for mini player
+        item {
+            Spacer(modifier = Modifier.height(100.dp))
         }
     }
 }
