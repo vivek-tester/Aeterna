@@ -80,20 +80,13 @@ jobs:
           java -version
           ls -la
           
-      - name: List Available Tasks
+      - name: Build Android APK
         env:
           GRADLE_OPTS: "-Xmx4096m -Dfile.encoding=UTF-8"
+        shell: bash
         run: |
-          echo "Testing Gradle wrapper..."
-          ./gradlew --version
-          echo "Listing available tasks..."
-          ./gradlew tasks --console=plain
-        
-      - name: Build APK
-        env:
-          GRADLE_OPTS: "-Xmx4096m -Dfile.encoding=UTF-8"
-        run: |
-          echo "Building debug APK..."
+          echo "Building APK with Gradle..."
+          chmod +x gradlew
           ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Upload APK
