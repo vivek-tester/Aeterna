@@ -70,18 +70,25 @@ jobs:
           echo "Updated gradle.properties:"
           cat gradle.properties
 
-      - name: Build with Gradle
+      - name: Debug Build Environment
         env:
           GRADLE_OPTS: "-Xmx4096m -Dfile.encoding=UTF-8"
         run: |
-          unset JAVA_OPTS || true
           echo "GRADLE_OPTS set to: $GRADLE_OPTS"
           echo "Current directory: $(pwd)"
-          echo "Available Gradle tasks:"
-          ./gradlew tasks --console=plain | head -20
-          echo "Building APK..."
-          chmod +x ./gradlew
-          ./gradlew assembleDebug --no-daemon --stacktrace
+          echo "Java version:"
+          java -version
+          ls -la
+          
+      - name: List Available Tasks
+        env:
+          GRADLE_OPTS: "-Xmx4096m -Dfile.encoding=UTF-8"
+        run: ./gradlew tasks
+        
+      - name: Build APK
+        env:
+          GRADLE_OPTS: "-Xmx4096m -Dfile.encoding=UTF-8"
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
