@@ -83,12 +83,18 @@ jobs:
       - name: List Available Tasks
         env:
           GRADLE_OPTS: "-Xmx4096m -Dfile.encoding=UTF-8"
-        run: ./gradlew tasks
+        run: |
+          echo "Testing Gradle wrapper..."
+          ./gradlew --version
+          echo "Listing available tasks..."
+          ./gradlew tasks --console=plain
         
       - name: Build APK
         env:
           GRADLE_OPTS: "-Xmx4096m -Dfile.encoding=UTF-8"
-        run: ./gradlew assembleDebug --no-daemon --stacktrace
+        run: |
+          echo "Building debug APK..."
+          ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
