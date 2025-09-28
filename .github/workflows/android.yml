@@ -83,11 +83,9 @@ jobs:
       - name: Build Android APK
         env:
           GRADLE_OPTS: "-Xmx4096m -Dfile.encoding=UTF-8"
-        shell: bash
         run: |
-          echo "Building APK with Gradle..."
-          chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon --stacktrace
+          chmod +x .github/scripts/build.sh
+          .github/scripts/build.sh
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
