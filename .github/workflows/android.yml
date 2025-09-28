@@ -76,8 +76,12 @@ jobs:
         run: |
           unset JAVA_OPTS || true
           echo "GRADLE_OPTS set to: $GRADLE_OPTS"
+          echo "Current directory: $(pwd)"
+          echo "Available Gradle tasks:"
+          ./gradlew tasks --console=plain | head -20
           echo "Building APK..."
-          ./gradlew assembleDebug --no-daemon --stacktrace --info
+          chmod +x ./gradlew
+          ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
