@@ -13,8 +13,11 @@ java -version
 echo "📦 Setting up Gradle wrapper permissions..."
 chmod +x gradlew
 
+echo "🔍 Listing all available Gradle tasks..."
+./gradlew tasks --all
+
 echo "🔧 Building debug APK..."
-./gradlew assembleDebug --no-daemon --stacktrace
+./gradlew assembleDebug --stacktrace --no-daemon
 
 echo "✅ Build completed successfully!"
 echo "APK location: app/build/outputs/apk/debug/app-debug.apk"
